@@ -5,6 +5,9 @@ using Shared.Models.Currency;
 using System.Collections.Generic;
 using Shared.Enums;
 using API.Services;
+using NpgsqlIndexExtensions = Microsoft.EntityFrameworkCore.NpgsqlIndexBuilderExtensions;
+using SqlServerIndexExtensions = Microsoft.EntityFrameworkCore.SqlServerIndexBuilderExtensions;
+
 
 namespace API.DataContext
 {
@@ -307,9 +310,14 @@ namespace API.DataContext
 
             #region CustomerBalance
 
-            modelBuilder.Entity<CustomerBalance>()
-                .HasIndex(cb => new { cb.UserId, cb.CustomerId, cb.CurrencyId })
-                .IncludeProperties(cb => cb.Balance);
+            //modelBuilder.Entity<CustomerBalance>()
+            //    .HasIndex(cb => new { cb.UserId, cb.CustomerId, cb.CurrencyId })
+            //    .IncludeProperties(cb => cb.Balance);
+            var indexBuilder = modelBuilder.Entity<CustomerBalance>()
+            .HasIndex(cb => new { cb.UserId, cb.CustomerId, cb.CurrencyId });
+
+            NpgsqlIndexExtensions.IncludeProperties(indexBuilder, cb => cb.Balance);
+
 
             //modelBuilder.Entity<CustomerBalance>()
             //    .HasOne(b => b.UserEntity)
