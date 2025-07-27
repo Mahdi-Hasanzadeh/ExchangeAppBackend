@@ -149,6 +149,8 @@ namespace API
 
             app.MapControllers();
 
+            app.MapGet("/", () => "Exchange API is running...");
+
             app.Run();
         }
     }
