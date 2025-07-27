@@ -43,10 +43,10 @@ namespace Shared.Models
         public string? Description { get; set; }
 
         [Required(ErrorMessage = "لطفا نوعیت معامله را مشخص کنید")]
-        [Column(TypeName = "tinyint")]
+        [Column(TypeName = "smallint")]
         public DealType DealType { get; set; }
 
-        [Column(TypeName = "tinyint")]
+        [Column(TypeName = "smallint")]
         public TransactionType TransactionType { get; set; } = TransactionType.Normal;
 
         // RowVersion for concurrency control

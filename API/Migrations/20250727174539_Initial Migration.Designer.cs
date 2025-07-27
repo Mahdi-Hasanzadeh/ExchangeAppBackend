@@ -3,17 +3,17 @@ using System;
 using API.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250217163339_index added in customerAccount table")]
-    partial class indexaddedincustomerAccounttable
+    [Migration("20250727174539_Initial Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,50 +21,138 @@ namespace API.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Shared.Models.BuyAndSellTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<int>("BuyAndSellType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("BuyTransactionId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("ConvertedAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("CurrencyExchangeAccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CustomerBuyTransactionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CustomerSellTransactionId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea");
+
+                    b.Property<int>("SellTransactionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SourceCurrencyId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TargetCurrencyId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuyTransactionId");
+
+                    b.HasIndex("CurrencyExchangeAccountId");
+
+                    b.HasIndex("CustomerBuyTransactionId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("CustomerSellTransactionId");
+
+                    b.HasIndex("SellTransactionId");
+
+                    b.HasIndex("SourceCurrencyId");
+
+                    b.HasIndex("TargetCurrencyId");
+
+                    b.ToTable("BuyAndSellTransactions");
+                });
 
             modelBuilder.Entity("Shared.Models.Currency.CurrencyEntity", b =>
                 {
                     b.Property<int>("CurrencyId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CurrencyId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CurrencyId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("character varying(10)");
 
                     b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("bytea");
 
                     b.Property<string>("ImageURL")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Symbol")
                         .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("character varying(5)");
 
                     b.Property<int>("Unit")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("CurrencyId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("UserId", "CurrencyId");
 
                     b.ToTable("Currencies");
                 });
@@ -73,42 +161,42 @@ namespace API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BaseCurrencyId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("Buy")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("EffectiveDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Sell")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Source")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("TargetCurrencyId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Unit")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -129,56 +217,80 @@ namespace API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccountNumber")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("AccountType")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("text");
 
                     b.Property<decimal>("BorrowAmount")
                         .HasPrecision(18, 4)
-                        .HasColumnType("decimal(18,4)");
+                        .HasColumnType("numeric(18,4)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("IDCardNumber")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("IdCardImage")
+                        .HasColumnType("bytea");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("bytea");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Lastname")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Mobile")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<byte[]>("PassportImage")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("PassportNumber")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("RegistrationImage")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("RegistrationNumber")
+                        .HasColumnType("text");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("bytea");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountNumber")
-                        .IsUnique();
-
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId", "AccountNumber")
+                        .IsUnique();
 
                     b.HasIndex("UserId", "AccountType");
 
@@ -189,36 +301,43 @@ namespace API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CurrencyId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("bytea");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CurrencyId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("UserId", "CustomerId", "CurrencyId");
+
+                    NpgsqlIndexBuilderExtensions.IncludeProperties(b.HasIndex("UserId", "CustomerId", "CurrencyId"), new[] { "Balance" });
 
                     b.ToTable("CustomerBalances");
                 });
@@ -227,48 +346,50 @@ namespace API.Migrations
                 {
                     b.Property<int>("TransactionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TransactionId"));
 
                     b.Property<decimal>("Amount")
                         .HasPrecision(18, 4)
-                        .HasColumnType("decimal(18,4)");
+                        .HasColumnType("numeric(18,4)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CurrencyId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    b.Property<byte>("DealType")
-                        .HasColumnType("tinyint");
+                    b.Property<short>("DealType")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("DepositOrWithdrawBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("DocumentNumber")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("bytea");
 
-                    b.Property<byte>("TransactionType")
-                        .HasColumnType("tinyint");
+                    b.Property<short>("TransactionType")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("TransactionId");
 
@@ -283,98 +404,140 @@ namespace API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("BaseCurrencyId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("LastUsedAccountNumber")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BaseCurrencyId")
-                        .IsUnique()
-                        .HasFilter("[BaseCurrencyId] IS NOT NULL");
+                        .IsUnique();
+
+                    b.ToTable("UserPreferences");
+                });
+
+            modelBuilder.Entity("Shared.Models.OwnerInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("Logo")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("LogoContentType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OwnerName")
+                        .IsRequired()
+                        .HasMaxLength(35)
+                        .HasColumnType("character varying(35)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserPreferences");
+                    b.ToTable("OwnerInfos");
                 });
 
             modelBuilder.Entity("Shared.Models.TransferBetweenAccountHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CommisionAccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CommisionCurrencyId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CommisionType")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CurrencyId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("LastUpdatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("RecievedAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("RecievedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("RecieverDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("RecieverId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("RecieverTransactionId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<byte[]>("RowVersion")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("bytea");
 
                     b.Property<string>("SendBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("SendedAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SenderDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("SenderId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("SenderTransactionId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("TransactionFeeAccountId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("TransactionFeeAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TransactionFeeDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("TransactionFeeRecievedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CommisionAccountId");
+
+                    b.HasIndex("CommisionCurrencyId");
 
                     b.HasIndex("CurrencyId")
                         .HasDatabaseName("IX_Transfers_CurrencyId");
@@ -398,37 +561,54 @@ namespace API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ConnectionString")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Databasename")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("bytea");
 
                     b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("ParentUserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PictureUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ServerAddress")
+                        .HasColumnType("text");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ValidUntil")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("isFirstTimeLogin")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -437,15 +617,67 @@ namespace API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Shared.Models.Currency.CurrencyEntity", b =>
+            modelBuilder.Entity("Shared.Models.BuyAndSellTransaction", b =>
                 {
-                    b.HasOne("Shared.Models.UserEntity", "UserEntity")
-                        .WithMany("Currency")
-                        .HasForeignKey("UserId")
+                    b.HasOne("Shared.Models.CustomerTransactionHistory", "BuyTransaction")
+                        .WithMany()
+                        .HasForeignKey("BuyTransactionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("UserEntity");
+                    b.HasOne("Shared.Models.CustomerAccount", "CurrencyExchangeAccount")
+                        .WithMany()
+                        .HasForeignKey("CurrencyExchangeAccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Shared.Models.CustomerTransactionHistory", "CustomerBuyTransaction")
+                        .WithMany()
+                        .HasForeignKey("CustomerBuyTransactionId");
+
+                    b.HasOne("Shared.Models.CustomerAccount", "CustomerAccount")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Shared.Models.CustomerTransactionHistory", "CustomerSellTransaction")
+                        .WithMany()
+                        .HasForeignKey("CustomerSellTransactionId")
+                        .HasConstraintName("FK_BuyAndSellTransactions_CustomerTransactionHistories_Custom~1");
+
+                    b.HasOne("Shared.Models.CustomerTransactionHistory", "SellTransaction")
+                        .WithMany()
+                        .HasForeignKey("SellTransactionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Shared.Models.Currency.CurrencyEntity", "SourceCurrencyEntity")
+                        .WithMany()
+                        .HasForeignKey("SourceCurrencyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Shared.Models.Currency.CurrencyEntity", "TargetCurrencyEntity")
+                        .WithMany()
+                        .HasForeignKey("TargetCurrencyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("BuyTransaction");
+
+                    b.Navigation("CurrencyExchangeAccount");
+
+                    b.Navigation("CustomerAccount");
+
+                    b.Navigation("CustomerBuyTransaction");
+
+                    b.Navigation("CustomerSellTransaction");
+
+                    b.Navigation("SellTransaction");
+
+                    b.Navigation("SourceCurrencyEntity");
+
+                    b.Navigation("TargetCurrencyEntity");
                 });
 
             modelBuilder.Entity("Shared.Models.Currency.CurrencyExchangeRate", b =>
@@ -462,28 +694,9 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Shared.Models.UserEntity", "UserEntity")
-                        .WithMany("CurrencyExchangeRates")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("BaseCurrency");
 
                     b.Navigation("TargetCurrency");
-
-                    b.Navigation("UserEntity");
-                });
-
-            modelBuilder.Entity("Shared.Models.CustomerAccount", b =>
-                {
-                    b.HasOne("Shared.Models.UserEntity", "User")
-                        .WithMany("CustomerAccounts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Shared.Models.CustomerBalance", b =>
@@ -531,19 +744,21 @@ namespace API.Migrations
                         .HasForeignKey("Shared.Models.Helpers.UserPreference", "BaseCurrencyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Shared.Models.UserEntity", "UserEntity")
-                        .WithOne("UserPreference")
-                        .HasForeignKey("Shared.Models.Helpers.UserPreference", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("CurrencyEntity");
-
-                    b.Navigation("UserEntity");
                 });
 
             modelBuilder.Entity("Shared.Models.TransferBetweenAccountHistory", b =>
                 {
+                    b.HasOne("Shared.Models.CustomerAccount", "CommisionAccount")
+                        .WithMany()
+                        .HasForeignKey("CommisionAccountId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Shared.Models.Currency.CurrencyEntity", "CommisionCurrencyEntity")
+                        .WithMany()
+                        .HasForeignKey("CommisionCurrencyId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Shared.Models.Currency.CurrencyEntity", "CurrencyEntity")
                         .WithMany()
                         .HasForeignKey("CurrencyId")
@@ -572,12 +787,18 @@ namespace API.Migrations
                         .WithMany()
                         .HasForeignKey("SenderTransactionId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_TransferBetweenAccountHistories_CustomerTransactionHistori~1");
 
                     b.HasOne("Shared.Models.CustomerTransactionHistory", "TransactionFeeAccount")
                         .WithMany()
                         .HasForeignKey("TransactionFeeAccountId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("FK_TransferBetweenAccountHistories_CustomerTransactionHistori~2");
+
+                    b.Navigation("CommisionAccount");
+
+                    b.Navigation("CommisionCurrencyEntity");
 
                     b.Navigation("CurrencyEntity");
 
@@ -625,16 +846,7 @@ namespace API.Migrations
 
             modelBuilder.Entity("Shared.Models.UserEntity", b =>
                 {
-                    b.Navigation("Currency");
-
-                    b.Navigation("CurrencyExchangeRates");
-
-                    b.Navigation("CustomerAccounts");
-
                     b.Navigation("SubUsers");
-
-                    b.Navigation("UserPreference")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

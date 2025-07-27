@@ -1,5 +1,4 @@
 ﻿using API.DataContext;
-using API.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Contract.Transactions;
