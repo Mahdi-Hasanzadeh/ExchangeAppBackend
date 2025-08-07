@@ -1146,6 +1146,7 @@ namespace API.Controllers
                 var currentUserId = User.GetUserId();
 
                 var user = await userRepo.GetUserByIdAsync(currentUserId);
+
                 if (!user.isFirstTimeLogin)
                 {
                     apiResponse.Message = "alreadyExist";
@@ -1173,7 +1174,7 @@ namespace API.Controllers
                 imageUrl = "https://upload.wikimedia.org/wikipedia/commons/3/32/Flag_of_Pakistan.svg";
                 byte[] pakistanImage = await client.GetByteArrayAsync(imageUrl);
 
-                imageUrl = "https://www.countryflags.com/wp-content/uploads/afghanistan-flag-png-large.png";
+                imageUrl = "https://upload.wikimedia.org/wikipedia/commons/archive/c/cd/20250208015840%21Flag_of_Afghanistan_%282013%E2%80%932021%29.svg";
                 byte[] afnImage = await client.GetByteArrayAsync(imageUrl);
 
 

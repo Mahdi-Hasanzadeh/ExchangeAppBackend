@@ -97,6 +97,8 @@ namespace API.Repositories.User
             var user = await _context.Users
                     .FirstOrDefaultAsync(u => EF.Functions.Collate(u.Username, "Latin1_General_100_CS_AS_SC_UTF8") == username);
 
+            //var user = await _context.Users
+            //    .FirstOrDefaultAsync(u => u.Username == username);
 
             return user;
         }

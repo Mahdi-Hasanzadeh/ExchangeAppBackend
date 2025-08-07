@@ -10,6 +10,6 @@ namespace Shared.Contract
     {
         Task<dynamic> BackupUserDataAsync(int userId);
 
-        Task RestoreUserDataAsync(int userId, string backupFilePath);
+        Task<bool> RestoreUserDataAsync(int userId, string jsonData);
     }
 }

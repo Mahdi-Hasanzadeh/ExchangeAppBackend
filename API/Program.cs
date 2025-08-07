@@ -120,16 +120,16 @@ namespace API
             //builder.Services.AddScoped<UserDatabaseService>();
 
 
-            //builder.Services.AddDbContext<AppDbContext>(options =>
-            //{
-            //    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalCon"));
-            //});
-
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
-                string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-                options.UseNpgsql(connectionString);
+                options.UseSqlServer(builder.Configuration.GetConnectionString("LocalCon"));
             });
+
+            //builder.Services.AddDbContext<AppDbContext>(options =>
+            //{
+            //    string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            //    options.UseNpgsql(connectionString);
+            //});
 
 
             // Connection string for user authentication database

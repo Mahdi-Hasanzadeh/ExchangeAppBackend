@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -16,16 +15,16 @@ namespace API.Migrations
                 name: "Currencies",
                 columns: table => new
                 {
-                    CurrencyId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Symbol = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: true),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    Image = table.Column<byte[]>(type: "bytea", nullable: true),
-                    ImageURL = table.Column<string>(type: "text", nullable: true),
-                    Unit = table.Column<int>(type: "integer", nullable: false)
+                    CurrencyId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Symbol = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Unit = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,27 +35,27 @@ namespace API.Migrations
                 name: "CustomerAccounts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Lastname = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    Mobile = table.Column<string>(type: "text", nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
-                    AccountType = table.Column<int>(type: "integer", nullable: true),
-                    AccountNumber = table.Column<int>(type: "integer", nullable: false),
-                    BorrowAmount = table.Column<decimal>(type: "numeric(18,4)", precision: 18, scale: 4, nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: true),
-                    PassportNumber = table.Column<string>(type: "text", nullable: true),
-                    PassportImage = table.Column<byte[]>(type: "bytea", nullable: true),
-                    RegistrationNumber = table.Column<string>(type: "text", nullable: true),
-                    RegistrationImage = table.Column<byte[]>(type: "bytea", nullable: true),
-                    Image = table.Column<byte[]>(type: "bytea", nullable: true),
-                    IDCardNumber = table.Column<string>(type: "text", nullable: true),
-                    IdCardImage = table.Column<byte[]>(type: "bytea", nullable: true),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Lastname = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
+                    AccountType = table.Column<int>(type: "int", nullable: true),
+                    AccountNumber = table.Column<int>(type: "int", nullable: false),
+                    BorrowAmount = table.Column<decimal>(type: "decimal(18,4)", precision: 18, scale: 4, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PassportNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PassportImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegistrationImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    IDCardNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdCardImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -67,12 +66,12 @@ namespace API.Migrations
                 name: "OwnerInfos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    OwnerName = table.Column<string>(type: "character varying(35)", maxLength: 35, nullable: false),
-                    Logo = table.Column<byte[]>(type: "bytea", nullable: true),
-                    LogoContentType = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    OwnerName = table.Column<string>(type: "nvarchar(35)", maxLength: 35, nullable: false),
+                    Logo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    LogoContentType = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,22 +82,22 @@ namespace API.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Username = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
-                    Role = table.Column<int>(type: "integer", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    PictureUrl = table.Column<string>(type: "text", nullable: true),
-                    Image = table.Column<byte[]>(type: "bytea", nullable: true),
-                    ParentUserId = table.Column<int>(type: "integer", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    ValidUntil = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    ConnectionString = table.Column<string>(type: "text", nullable: true),
-                    ServerAddress = table.Column<string>(type: "text", nullable: true),
-                    Databasename = table.Column<string>(type: "text", nullable: true),
-                    isFirstTimeLogin = table.Column<bool>(type: "boolean", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    ParentUserId = table.Column<int>(type: "int", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ValidUntil = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ConnectionString = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ServerAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Databasename = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isFirstTimeLogin = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,19 +114,19 @@ namespace API.Migrations
                 name: "CurrencyExchangeRates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    Unit = table.Column<int>(type: "integer", nullable: false),
-                    Buy = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    Sell = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    Source = table.Column<string>(type: "text", nullable: true),
-                    Remark = table.Column<string>(type: "text", nullable: true),
-                    EffectiveDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    BaseCurrencyId = table.Column<int>(type: "integer", nullable: false),
-                    TargetCurrencyId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Unit = table.Column<int>(type: "int", nullable: false),
+                    Buy = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Sell = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Source = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EffectiveDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    BaseCurrencyId = table.Column<int>(type: "int", nullable: false),
+                    TargetCurrencyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -150,11 +149,11 @@ namespace API.Migrations
                 name: "UserPreferences",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    LastUsedAccountNumber = table.Column<int>(type: "integer", nullable: false),
-                    BaseCurrencyId = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    LastUsedAccountNumber = table.Column<int>(type: "int", nullable: false),
+                    BaseCurrencyId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -171,15 +170,15 @@ namespace API.Migrations
                 name: "CustomerBalances",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CustomerId = table.Column<int>(type: "integer", nullable: false),
-                    CurrencyId = table.Column<int>(type: "integer", nullable: false),
-                    Balance = table.Column<decimal>(type: "numeric(18,4)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -202,20 +201,20 @@ namespace API.Migrations
                 name: "CustomerTransactionHistories",
                 columns: table => new
                 {
-                    TransactionId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    CustomerId = table.Column<int>(type: "integer", nullable: false),
-                    Amount = table.Column<decimal>(type: "numeric(18,4)", precision: 18, scale: 4, nullable: false),
-                    CurrencyId = table.Column<int>(type: "integer", nullable: false),
-                    DepositOrWithdrawBy = table.Column<string>(type: "text", nullable: false),
-                    DocumentNumber = table.Column<int>(type: "integer", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
+                    TransactionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,4)", precision: 18, scale: 4, nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    DepositOrWithdrawBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DocumentNumber = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DealType = table.Column<short>(type: "smallint", nullable: false),
                     TransactionType = table.Column<short>(type: "smallint", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false)
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -238,26 +237,26 @@ namespace API.Migrations
                 name: "BuyAndSellTransactions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    SourceCurrencyId = table.Column<int>(type: "integer", nullable: false),
-                    Rate = table.Column<decimal>(type: "numeric(18,4)", nullable: false),
-                    ConvertedAmount = table.Column<decimal>(type: "numeric(18,4)", nullable: false),
-                    Amount = table.Column<decimal>(type: "numeric(18,4)", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
-                    CurrencyExchangeAccountId = table.Column<int>(type: "integer", nullable: false),
-                    SellTransactionId = table.Column<int>(type: "integer", nullable: false),
-                    CustomerBuyTransactionId = table.Column<int>(type: "integer", nullable: true),
-                    TargetCurrencyId = table.Column<int>(type: "integer", nullable: false),
-                    TransactionType = table.Column<int>(type: "integer", nullable: false),
-                    BuyAndSellType = table.Column<int>(type: "integer", nullable: false),
-                    CustomerId = table.Column<int>(type: "integer", nullable: true),
-                    BuyTransactionId = table.Column<int>(type: "integer", nullable: false),
-                    CustomerSellTransactionId = table.Column<int>(type: "integer", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    SourceCurrencyId = table.Column<int>(type: "int", nullable: false),
+                    Rate = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    ConvertedAmount = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
+                    CurrencyExchangeAccountId = table.Column<int>(type: "int", nullable: false),
+                    SellTransactionId = table.Column<int>(type: "int", nullable: false),
+                    CustomerBuyTransactionId = table.Column<int>(type: "int", nullable: true),
+                    TargetCurrencyId = table.Column<int>(type: "int", nullable: false),
+                    TransactionType = table.Column<int>(type: "int", nullable: false),
+                    BuyAndSellType = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: true),
+                    BuyTransactionId = table.Column<int>(type: "int", nullable: false),
+                    CustomerSellTransactionId = table.Column<int>(type: "int", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -275,7 +274,7 @@ namespace API.Migrations
                         principalColumn: "CurrencyId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BuyAndSellTransactions_CustomerAccounts_CurrencyExchangeAcc~",
+                        name: "FK_BuyAndSellTransactions_CustomerAccounts_CurrencyExchangeAccountId",
                         column: x => x.CurrencyExchangeAccountId,
                         principalTable: "CustomerAccounts",
                         principalColumn: "Id",
@@ -287,23 +286,23 @@ namespace API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BuyAndSellTransactions_CustomerTransactionHistories_BuyTran~",
+                        name: "FK_BuyAndSellTransactions_CustomerTransactionHistories_BuyTransactionId",
                         column: x => x.BuyTransactionId,
                         principalTable: "CustomerTransactionHistories",
                         principalColumn: "TransactionId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BuyAndSellTransactions_CustomerTransactionHistories_Custome~",
+                        name: "FK_BuyAndSellTransactions_CustomerTransactionHistories_CustomerBuyTransactionId",
                         column: x => x.CustomerBuyTransactionId,
                         principalTable: "CustomerTransactionHistories",
                         principalColumn: "TransactionId");
                     table.ForeignKey(
-                        name: "FK_BuyAndSellTransactions_CustomerTransactionHistories_Custom~1",
+                        name: "FK_BuyAndSellTransactions_CustomerTransactionHistories_CustomerSellTransactionId",
                         column: x => x.CustomerSellTransactionId,
                         principalTable: "CustomerTransactionHistories",
                         principalColumn: "TransactionId");
                     table.ForeignKey(
-                        name: "FK_BuyAndSellTransactions_CustomerTransactionHistories_SellTra~",
+                        name: "FK_BuyAndSellTransactions_CustomerTransactionHistories_SellTransactionId",
                         column: x => x.SellTransactionId,
                         principalTable: "CustomerTransactionHistories",
                         principalColumn: "TransactionId",
@@ -314,36 +313,36 @@ namespace API.Migrations
                 name: "TransferBetweenAccountHistories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    SenderId = table.Column<int>(type: "integer", nullable: false),
-                    RecieverId = table.Column<int>(type: "integer", nullable: false),
-                    CommisionAccountId = table.Column<int>(type: "integer", nullable: true),
-                    RecieverTransactionId = table.Column<int>(type: "integer", nullable: false),
-                    SenderTransactionId = table.Column<int>(type: "integer", nullable: false),
-                    TransactionFeeAccountId = table.Column<int>(type: "integer", nullable: true),
-                    RecievedAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    TransactionFeeAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    SendedAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    CurrencyId = table.Column<int>(type: "integer", nullable: false),
-                    CommisionCurrencyId = table.Column<int>(type: "integer", nullable: true),
-                    CommisionType = table.Column<int>(type: "integer", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastUpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    SendBy = table.Column<string>(type: "text", nullable: false),
-                    RecievedBy = table.Column<string>(type: "text", nullable: false),
-                    TransactionFeeRecievedBy = table.Column<string>(type: "text", nullable: false),
-                    SenderDescription = table.Column<string>(type: "text", nullable: true),
-                    RecieverDescription = table.Column<string>(type: "text", nullable: true),
-                    TransactionFeeDescription = table.Column<string>(type: "text", nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    SenderId = table.Column<int>(type: "int", nullable: false),
+                    RecieverId = table.Column<int>(type: "int", nullable: false),
+                    CommisionAccountId = table.Column<int>(type: "int", nullable: true),
+                    RecieverTransactionId = table.Column<int>(type: "int", nullable: false),
+                    SenderTransactionId = table.Column<int>(type: "int", nullable: false),
+                    TransactionFeeAccountId = table.Column<int>(type: "int", nullable: true),
+                    RecievedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TransactionFeeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SendedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    CommisionCurrencyId = table.Column<int>(type: "int", nullable: true),
+                    CommisionType = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastUpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    SendBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RecievedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TransactionFeeRecievedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SenderDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RecieverDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TransactionFeeDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TransferBetweenAccountHistories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TransferBetweenAccountHistories_Currencies_CommisionCurrenc~",
+                        name: "FK_TransferBetweenAccountHistories_Currencies_CommisionCurrencyId",
                         column: x => x.CommisionCurrencyId,
                         principalTable: "Currencies",
                         principalColumn: "CurrencyId",
@@ -355,7 +354,7 @@ namespace API.Migrations
                         principalColumn: "CurrencyId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TransferBetweenAccountHistories_CustomerAccounts_CommisionA~",
+                        name: "FK_TransferBetweenAccountHistories_CustomerAccounts_CommisionAccountId",
                         column: x => x.CommisionAccountId,
                         principalTable: "CustomerAccounts",
                         principalColumn: "Id",
@@ -373,19 +372,19 @@ namespace API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TransferBetweenAccountHistories_CustomerTransactionHistorie~",
+                        name: "FK_TransferBetweenAccountHistories_CustomerTransactionHistories_RecieverTransactionId",
                         column: x => x.RecieverTransactionId,
                         principalTable: "CustomerTransactionHistories",
                         principalColumn: "TransactionId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TransferBetweenAccountHistories_CustomerTransactionHistori~1",
+                        name: "FK_TransferBetweenAccountHistories_CustomerTransactionHistories_SenderTransactionId",
                         column: x => x.SenderTransactionId,
                         principalTable: "CustomerTransactionHistories",
                         principalColumn: "TransactionId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TransferBetweenAccountHistories_CustomerTransactionHistori~2",
+                        name: "FK_TransferBetweenAccountHistories_CustomerTransactionHistories_TransactionFeeAccountId",
                         column: x => x.TransactionFeeAccountId,
                         principalTable: "CustomerTransactionHistories",
                         principalColumn: "TransactionId",
@@ -497,7 +496,7 @@ namespace API.Migrations
                 name: "IX_CustomerBalances_UserId_CustomerId_CurrencyId",
                 table: "CustomerBalances",
                 columns: new[] { "UserId", "CustomerId", "CurrencyId" })
-                .Annotation("Npgsql:IndexInclude", new[] { "Balance" });
+                .Annotation("SqlServer:Include", new[] { "Balance" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerTransactionHistories_CurrencyId",
@@ -559,7 +558,8 @@ namespace API.Migrations
                 name: "IX_UserPreferences_BaseCurrencyId",
                 table: "UserPreferences",
                 column: "BaseCurrencyId",
-                unique: true);
+                unique: true,
+                filter: "[BaseCurrencyId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_ParentUserId",
