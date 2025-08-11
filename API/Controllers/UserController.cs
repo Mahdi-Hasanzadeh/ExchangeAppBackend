@@ -270,14 +270,14 @@ namespace API.Controllers
                     return NotFound(new ApiResponse<UserEntity>(false, "User not found",
                         nameof(ResourceStringsError.UserNotFound)));
                 }
-                if (userInfo.Username == updateInfoModel.Username
-                    && userInfo.Email == updateInfoModel.Email
-                    && userInfo.PictureUrl == updateInfoModel.PictureUrl
-                    )
-                {
-                    return Ok(new ApiResponse<UserEntity>(false, "Nothing Changed",
-                                            nameof(ResourceStringsError.NoChangesToUserAccount)));
-                }
+                //if (userInfo.Username == updateInfoModel.Username
+                //    && userInfo.Email == updateInfoModel.Email
+                //    && userInfo.PictureUrl == updateInfoModel.PictureUrl
+                //    )
+                //{
+                //    return Ok(new ApiResponse<UserEntity>(false, "Nothing Changed",
+                //                            nameof(ResourceStringsError.NoChangesToUserAccount)));
+                //}
                 if (userInfo.Username != updateInfoModel.Username)
                 {
                     var user = await _userRepo.GetUserByUsernameAsync(updateInfoModel.Username);
@@ -287,22 +287,24 @@ namespace API.Controllers
                             nameof(ResourceStringsError.UsernameAlreadyExist)));
                     }
                 }
-                if (userInfo.Email != updateInfoModel.Email)
-                {
-                    var user = await _userRepo.GetUserByEmailAsync(updateInfoModel.Email);
-                    if (user != null)
-                    {
-                        return BadRequest(new ApiResponse<UserEntity>(false, "Email address is not available",
-                            nameof(ResourceStringsError.EmailAlreadyExist)));
-                    }
-                }
+                //if (userInfo.Email != updateInfoModel.Email)
+                //{
+                //    var user = await _userRepo.GetUserByEmailAsync(updateInfoModel.Email);
+                //    if (user != null)
+                //    {
+                //        return BadRequest(new ApiResponse<UserEntity>(false, "Email address is not available",
+                //            nameof(ResourceStringsError.EmailAlreadyExist)));
+                //    }
+                //}
 
-                if (!updateInfoModel.Password.VerifyPassword(userInfo.Password))
-                {
-                    return BadRequest(new ApiResponse<UserEntity>(false, "Username or Password is wrong",
-                        nameof(ResourceStringsError.InvalidCredentials)));
-                }
+                //if (!updateInfoModel.Password.VerifyPassword(userInfo.Password))
+                //{
+                //    return BadRequest(new ApiResponse<UserEntity>(false, "Username or Password is wrong",
+                //        nameof(ResourceStringsError.InvalidCredentials)));
+                //}
 
+
+                userInfo.Password = updateInfoModel.Password.HashPassword();
                 userInfo.Username = updateInfoModel.Username;
                 userInfo.Email = updateInfoModel.Email;
                 userInfo.PictureUrl = updateInfoModel.PictureUrl;
