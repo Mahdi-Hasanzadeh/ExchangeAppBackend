@@ -29,14 +29,16 @@ namespace API.Controllers
         private readonly ILogger<UserController> _logger;
         //private readonly IGenericRepository<UserEntity> _genericRepository;
         private readonly IUserRepository _userRepo;
+        private readonly IConfiguration _configuration;
 
         public UserController(ILogger<UserController> logger,
             //IGenericRepository<UserEntity> genericRepository,
-            IUserRepository userRepo)
+            IUserRepository userRepo, IConfiguration configuration)
         {
             _logger = logger;
             //_genericRepository = genericRepository;
             _userRepo = userRepo;
+           _configuration = configuration;
         }
 
         [HttpGet("{id:int}", Name = "GetUserById")]
@@ -234,13 +236,17 @@ namespace API.Controllers
                         new Claim("IsFirstTimeLogin",isFirstTimeLogin),
                 };
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("mahdihasanzadeh12313kljuwiorqyhfdjk"));
+                var issuer = _configuration["JwtSettings:Issuer"];
+                var audience = _configuration["JwtSettings:Audience"];
+                var secretKey = _configuration["JwtSettings:SecretKey"];
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 
                 var jwtToken = new JwtSecurityToken(
-                    issuer: "https://localhost:7210",
-                    audience: "https://localhost:7210",
+                    issuer: issuer,
+                    audience: audience,
                     claims: claims,
                     expires: DateTime.Now.AddHours(8),
                     signingCredentials: creds);
